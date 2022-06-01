@@ -1,0 +1,253 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section scripts {
+
+<script>
+
+
+    $(document).ready(function () {
+        $("main").removeClass("pt-3");
+    });
+
+</script>
+
+}
+
+
+<!-- ======= What We Do Section ======= -->
+<section id="what-we-do" class="what-we-do">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Contesto</h2>
+            <p>In un’era dove ogni proprietario non si esime dal restare connesso, anche da remoto, con il proprio pet, la “pet technology” interviene per agevolare e supportare al meglio ogni pet owner con l’obiettivo di monitorare la salute e i comportamenti dei loro animali da compagnia. </p>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                <div class="icon-box">
+                    <div class="icon"><i class="bx bxl-dribbble"></i></div>
+                    <h4><a href="/Evento/Index">Eventi</a></h4>
+                    <p>Organizza un evento di gruppo, classi di socializzazione o eventi di beneficenza</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+                <div class="icon-box">
+                    <div class="icon"><i class="bx bx-file"></i></div>
+                    <h4><a href="/Professionista/AddestratoriCinofili">Addestratori Cinofili</a></h4>
+                    <p>Consulta la lista degli addestratori cinofili presenti sul tuo territorio</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+                <div class="icon-box">
+                    <div class="icon"><i class="bx bx-tachometer"></i></div>
+                    <h4><a href="/Professionista/Veterinari">Veterinari</a></h4>
+                    <p>Cerca un veterinario nel tuo comune di residenza e valuta a chi affidare la cura del tuo pet </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- End What We Do Section -->
+<!-- ======= About Section ======= -->
+<section id="about" class="about">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-6">
+                <img src="~/media/images/cat-sadness.jpg" class="img-fluid" alt="">
+            </div>
+            <div class="col-lg-6 pt-4 pt-lg-0">
+                <h3>Obiettivo del sistema</h3>
+                <p>
+                    Ogni proprietario si pone l’obiettivo di prendersi cura e condividere al meglio il proprio tempo libero con l’animale domestico adottato e necessita sempre di consigli o opinioni altrui per crescere più adeguatamente il proprio pet.
+                </p>
+                <ul>
+                    <li><i class="bx bx-check-double"></i> Per una migliore gestione del proprio animale da compagnia.</li>
+                    <li><i class="bx bx-check-double"></i> Per collaborare e condividere tutte le problematiche e la quotidianità del proprio pet.</li>
+                </ul>
+                <div class="row icon-boxes">
+                    <div class="col-md-6">
+                        <i class="bx bx-receipt"></i>
+                        <h4>Recensioni</h4>
+                        <p>Scrivere le proprie esperienze personali con un pet sitter o pet trainer e permettere ad altri utenti interessati di conoscere e valutare pareri altrui prima di affidarvi il proprio pet</p>
+                    </div>
+                    <div class="col-md-6 mt-4 mt-md-0">
+                        <i class="bx bx-cube-alt"></i>
+                        <h4>Forum</h4>
+                        <p>Fornire consigli o suggerimenti per recupero comportamentale o gestione di un pet</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section><!-- End About Section -->
+<!-- ======= Portfolio Section ======= -->
+<section id="portfolio" class="portfolio">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Portfolio</h2>
+            <p></p>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <ul id="portfolio-flters">
+                    <li data-filter="*" class="filter-active">Tutti</li>
+                    <li data-filter=".filter-app">Cani</li>
+                    <li data-filter=".filter-card">Gatti</li>
+                    @*<li data-filter=".filter-web">Web</li>*@
+                </ul>
+            </div>
+        </div>
+
+        <div class="row portfolio-container">
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-app wow fadeInUp">
+                <div class="portfolio-wrap">
+                    <figure>
+                        <img src="~/media/images/bordercollie.jpg" class="img-fluid" alt="">
+                        <a href="~/media/images/bordercollie.jpg" data-gallery="portfolioGallery" class="link-preview portfolio-lightbox" title="Preview"><i class="bx bx-plus"></i></a>
+                        <a download="~/media/images/bordercollie.jpg" href="~/media/images/bordercollie.jpg" class="link-details" title="Download"><i class="bx bx-download"></i></a>
+                    </figure>
+
+                    @*<div class="portfolio-info">
+                        <h4><a href="portfolio-details.html">App 1</a></h4>
+                        <p>App</p>
+                        </div>*@
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-card wow fadeInUp" data-wow-delay="0.1s">
+                <div class="portfolio-wrap">
+                    <figure>
+                        <img src="~/media/images/cat-card.jpg" class="img-fluid" alt="">
+                        <a href="~/media/images/cat-card.jpg" class="link-preview portfolio-lightbox" data-gallery="portfolioGallery" title="Preview"><i class="bx bx-plus"></i></a>
+                        <a download="~/media/images/cat-card.jpg" href="~/media/images/cat-card.jpg" class="link-details" title="Download"><i class="bx bx-download"></i></a>
+                    </figure>
+
+                    @*<div class="portfolio-info">
+                        <h4><a href="portfolio-details.html">Web 3</a></h4>
+                        <p>Web</p>
+                        </div>*@
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-app wow fadeInUp" data-wow-delay="0.2s">
+                <div class="portfolio-wrap">
+                    <figure>
+                        <img src="~/media/images/cane-pastore-australiano.jpg" class="img-fluid" alt="">
+                        <a href="~/media/images/cane-pastore-australiano.jpg" class="link-preview portfolio-lightbox" data-gallery="portfolioGallery" title="Preview"><i class="bx bx-plus"></i></a>
+                        <a download="~/media/images/cane-pastore-australiano.jpg" href="~/media/images/cane-pastore-australiano.jpg" class="link-details" title="Download"><i class="bx bx-download"></i></a>
+                    </figure>
+                    @*
+                        <div class="portfolio-info">
+                        <h4><a href="portfolio-details.html">App 2</a></h4>
+                        <p>App</p>
+                        </div>*@
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-app wow fadeInUp">
+                <div class="portfolio-wrap">
+                    <figure>
+                        <img src="~/media/images/dog-bulldog.jpg" class="img-fluid" alt="">
+                        <a href="~/media/images/dog-bulldog.jpg" class="link-preview portfolio-lightbox" data-gallery="portfolioGallery" title="Preview"><i class="bx bx-plus"></i></a>
+                        <a download="~/media/images/dog-bulldog.jpg" href="~/media/images/dog-bulldog.jpg" class="link-details" title="Download"><i class="bx bx-download"></i></a>
+                    </figure>
+                    @*
+                        <div class="portfolio-info">
+                        <h4><a href="portfolio-details.html">Card 2</a></h4>
+                        <p>Card</p>
+                        </div>*@
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-card wow fadeInUp" data-wow-delay="0.1s">
+                <div class="portfolio-wrap">
+                    <figure>
+                        <img src="~/media/images/gatto.jpg" class="img-fluid" alt="">
+                        <a href="~/media/images/gatto.jpg" class="link-preview portfolio-lightbox" data-gallery="portfolioGallery" title="Preview"><i class="bx bx-plus"></i></a>
+                        <a download="~/media/images/gatto.jpg" href="~/media/images/gatto.jpg" class="link-details" title="Download"><i class="bx bx-download"></i></a>
+                    </figure>
+
+                    @*<div class="portfolio-info">
+                        <h4><a href="portfolio-details.html">Web 2</a></h4>
+                        <p>Web</p>
+                        </div>*@
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-app filter-card wow fadeInUp" data-wow-delay="0.2s">
+                <div class="portfolio-wrap">
+                    <figure>
+                        <img src="~/media/images/cane-e-gatto-amici-60.jpg" class="img-fluid" alt="">
+                        <a href="~/media/images/cane-e-gatto-amici-60.jpg" class="link-preview portfolio-lightbox" data-gallery="portfolioGallery" title="Preview"><i class="bx bx-plus"></i></a>
+                        <a download="~/media/images/cane-e-gatto-amici-60.jpg" href="~/media/images/cane-e-gatto-amici-60.jpg" class="link-details" title="Download"><i class="bx bx-download"></i></a>
+                    </figure>
+
+                    @*<div class="portfolio-info">
+                        <h4><a href="portfolio-details.html">App 3</a></h4>
+                        <p>App</p>
+                        </div>*@
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-app wow fadeInUp">
+                <div class="portfolio-wrap">
+                    <figure>
+                        <img src="~/media/images/dog-card.jpg" class="img-fluid" alt="">
+                        <a href="~/media/images/dog-card.jpg" class="link-preview portfolio-lightbox" data-gallery="portfolioGallery" title="Preview"><i class="bx bx-plus"></i></a>
+                        <a download="~/media/images/dog-card.jpg" href="~/media/images/dog-card.jpg" class="link-details" title="Download"><i class="bx bx-download"></i></a>
+                    </figure>
+
+                    @*<div class="portfolio-info">
+                        <h4><a href="portfolio-details.html">Card 1</a></h4>
+                        <p>Card</p>
+                        </div>*@
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-app wow fadeInUp" data-wow-delay="0.1s">
+                <div class="portfolio-wrap">
+                    <figure>
+                        <img src="~/media/images/bc.jpg" class="img-fluid" alt="">
+                        <a href="~/media/images/bc.jpg" class="link-preview portfolio-lightbox" data-gallery="portfolioGallery" title="Preview"><i class="bx bx-plus"></i></a>
+                        <a download="~/media/images/bc.jpg" href="~/media/images/bc.jpg" class="link-details" title="Download"><i class="bx bx-download"></i></a>
+                    </figure>
+
+                    @*<div class="portfolio-info">
+                        <h4><a href="portfolio-details.html">Card 3</a></h4>
+                        <p>Card</p>
+                        </div>*@
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-app wow fadeInUp" data-wow-delay="0.2s">
+                <div class="portfolio-wrap">
+                    <figure>
+                        <img src="~/media/images/labrador.jpg" class="img-fluid" alt="">
+                        <a href="~/media/images/labrador.jpg" class="link-preview portfolio-lightbox" data-gallery="portfolioGallery" title="Preview"><i class="bx bx-plus"></i></a>
+                        <a download="~/media/images/labrador.jpg" href="~/media/images/labrador.jpg" class="link-details" title="Download"><i class="bx bx-download"></i></a>
+                    </figure>
+
+                    @*<div class="portfolio-info">
+                        <h4><a href="portfolio-details.html">Web 1</a></h4>
+                        <p>Web</p>
+                        </div>*@
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section><!-- End Portfolio Section -->

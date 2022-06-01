@@ -1,0 +1,74 @@
+﻿@model VeterinarioViewModel
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+
+<div class="modal fade" id="modalAddVet" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel"><b> Aggiornamento Dati Veterinario </b> <i class="fa-solid fa-pen-to-square ms-2"></i></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formValidation">
+                <div class="modal-body">
+                    <div class="p-3">
+                        <div class="section">
+                            <div class="mb-3">
+                                <label for="nome" class="form-label">Nome : </label>
+                                <input type="text" asp-for="Nome" class="form-control" id="txtNome" readonly>
+                                <span asp-validation-for="Nome" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cognome" class="form-label">Cognome : </label>
+                                <input type="text" asp-for="Cognome" class="form-control" id="txtCognome" readonly>
+                                <span asp-validation-for="Cognome" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label for="indirizzo" class="form-label">Indirizzo : </label>
+                                <input type="text" asp-for="Indirizzo" class="form-control" id="txtIndirizzo">
+                            </div>
+                            <div class="mb-3">
+                                <label for="datanascita" class="form-label">Comune di residenza: </label>
+                                <select class="form-select" asp-for="Comune" aria-label="Default select example" data-size="10">
+                                    @foreach (var item in ViewBag.Comuni)
+                                    {
+                                        if (item.nome == Model.Comune)
+                                        {
+                                            <option value="@item.nome" selected>@item.nome</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.nome">@item.nome</option>
+
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cognome" class="form-label">Numero di telefono : </label>
+                                <input type="number" asp-for="NumeroTelefono" class="form-control" id="txtCognome">
+                            </div>
+                            <div class="mb-3">
+                                <label for="cognome" class="form-label">Tipologia centro veterinario : </label>
+                                <select class="form-select" asp-for="TipoVeterinario" aria-label="Default select example">
+                                    <option value="Studio veterinario">Studio veterinario</option>
+                                    <option value="Ambulatorio veterinario">Ambulatorio veterinario</option>
+                                    <option value="Ospedale veterinario">Ospedale veterinario</option>
+                                    <option value="Laboratorio veterinario di analisi">Laboratorio veterinario di analisi</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="note" class="form-label">Note : </label>
+                                <textarea type="text" asp-for="Note" class="form-control" id="txtNote"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                    <button type="button" class="btn btn-primary" onclick="salvaVeterinario();">Salva</button>
+                </div>
+                @Xsrf.GetHtml(Context)
+            </form>
+        </div>
+    </div>
+</div>

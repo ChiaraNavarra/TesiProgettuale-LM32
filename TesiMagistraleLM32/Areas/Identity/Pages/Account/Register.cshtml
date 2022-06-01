@@ -1,0 +1,78 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+
+<div class="row">
+    <h1>@ViewData["Title"]</h1>
+    <div class="col-md-4">
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h2>Create a new account.</h2>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                <label asp-for="Input.Email"></label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.Password"></label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.ConfirmPassword"></label>
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <select asp-for="Input.Role" class="form-control" aria-required="true" onchange="changeInfoRole();">
+                    <option value="SimpleUser">Utente</option>
+                    <option value="PetSitter">Pet Sitter</option>
+                    <option value="PetTrainer">Pet Trainer</option>
+                    <option value="Veterinario">Veterinario</option>
+                </select>
+                <label asp-for="Input.Role"></label>
+                <span asp-validation-for="Input.Role" class="text-danger"></span>
+            </div>
+
+            <div class="mt-3" id="infoPet" hidden>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Nome" class="form-control" autocomplete="new-password" aria-required="true" />
+                    <label asp-for="Input.Nome"></label>
+                    <span asp-validation-for="Input.Nome" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Cognome" class="form-control" autocomplete="new-password" aria-required="true" />
+                    <label asp-for="Input.Cognome"></label>
+                    <span asp-validation-for="Input.Cognome" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.NumeroTelefono" class="form-control" autocomplete="new-password" aria-required="true" />
+                    <label asp-for="Input.NumeroTelefono"></label>
+                    <span asp-validation-for="Input.NumeroTelefono" class="text-danger"></span>
+                </div>
+            </div>
+
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary mb-3">Register</button>
+        </form>
+    </div>
+    
+</div>
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+
+<script>
+    function changeInfoRole(){
+        if($("#Input_Role").val() == "PetTrainer" || $("#Input_Role").val() == "PetSitter" || $("#Input_Role").val() == "Veterinario"){
+            $("#infoPet").removeAttr("hidden");
+        }
+        else{
+            $("#infoPet").attr("hidden","");
+        }
+    }
+</script>
+}

@@ -1,0 +1,61 @@
+﻿@model PetsitterViewModel
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+
+<div class="modal fade" id="modalAddPetsitter" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel"><b> Aggiornamento Dati Pet Sitter </b> <i class="fa-solid fa-pen-to-square ms-2"></i></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formValidation">
+                <div class="modal-body">
+                    <div class="p-3">
+                        <div class="section">
+                            <div class="mb-3">
+                                <label for="nome" class="form-label">Nome : </label>
+                                <input type="text" asp-for="Nome" class="form-control" id="txtNome" readonly>
+                                <span asp-validation-for="Nome" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cognome" class="form-label">Cognome : </label>
+                                <input type="text" asp-for="Cognome" class="form-control" id="txtCognome" readonly>
+                                <span asp-validation-for="Cognome" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label for="datanascita" class="form-label">Comune di residenza: </label>
+                                <select class="form-select" asp-for="Comune" aria-label="Default select example" data-size="10">
+                                    @foreach (var item in ViewBag.Comuni)
+                                    {
+                                        if (item.nome == Model.Comune)
+                                        {
+                                            <option value="@item.nome" selected>@item.nome</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.nome">@item.nome</option>
+
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cognome" class="form-label">Numero di telefono : </label>
+                                <input type="number" asp-for="NumeroTelefono" class="form-control" id="txtCognome">
+                            </div>
+                            <div class="mb-3">
+                                <label for="note" class="form-label">Descrizione esperienze pregresse : </label>
+                                <textarea type="text" asp-for="Note" class="form-control" id="txtNote"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                    <button type="button" class="btn btn-primary" onclick="salvaPetsitter();">Salva</button>
+                </div>
+                @Xsrf.GetHtml(Context)
+            </form>
+        </div>
+    </div>
+</div>

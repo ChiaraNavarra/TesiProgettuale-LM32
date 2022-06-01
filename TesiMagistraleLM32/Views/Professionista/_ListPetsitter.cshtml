@@ -1,0 +1,74 @@
+﻿@model IReadOnlyList<PetsitterViewModel>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+
+<div class="row">
+    <div class="col">
+        <div class="table-responsive">
+            <table id="tabellaPetsitter" class="table border rounded-3 table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Cognome</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Telefono</th>
+                        <th scope="col">Comune</th>
+                        <th scope="col">Descrizione esperienze</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="8">Nessun Pet Sitter presente</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Nome</td>
+                                <td>@item.Cognome</td>
+                                <td>@item.Email</td>
+                                <td>@item.NumeroTelefono</td>
+                                <td>@item.Comune</td>
+                                <td>@item.Note</td>
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    @if (item.Id == UserManager.GetUserId(User))
+                                    {
+                                        <td><a class='btn btn-sm btn-link' onclick='openModaleInserimentoPetsitter("@item.Id")' title="Aggiorna Informazioni"><i class="fa-solid fa-pen"></i></a></td>
+
+                                    }
+                                    else if(item.Id != UserManager.GetUserId(User) && Context.User.IsInRole("PetSitter"))
+                                    {
+                                        <td></td>
+                                    }
+                                    else
+                                    {
+                                        <td><a class='btn btn-sm btn-link' onclick='openModaleInserimentoRecensione(null,"@item.Id",null)' title="Aggiungi Recensione"><i class="fa-solid fa-comment"></i></a></td>
+                                        
+                                    }
+                                    <td><a class='btn btn-sm btn-link' onclick='openModaleVisualizzaRecensioni("@item.Id")' title="Visualizza Recensioni"><i class="fa-solid fa-eye"></i></a></td>
+
+                                }
+                                else
+                                {
+                                    <td></td>
+                                    <td></td>
+
+                                }
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+﻿@model IReadOnlyList<EventoViewModel>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<section id="counts" class="counts">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col">
+                <div class="count-box">
+                    <i class="bi bi-people"></i>
+                    <span data-purecounter-start="0" data-purecounter-end="@Model.Count" data-purecounter-duration="0" class="purecounter">@Model.Count</span>
+                    <p>Eventi organizzati</p>
+                </div>
+            </div>
+        </div>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <div class="row">
+                <div class="col d-flex justify-content-center mb-5">
+                    <div>
+                        <button type="button" class="btn btn-primary" onclick="openModaleInserimentoEvento();" title="Aggiungi Evento"><i class="fa-solid fa-plus"></i>Aggiungi un evento</button>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="row">
+            <div class="col">
+                <div class="table-responsive">
+                    <table id="tabellaEventi" class="table table-striped border rounded-3 table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Titolo</th>
+                                <th scope="col">Tipo Evento</th>
+                                <th scope="col">Data Evento</th>
+                                <th scope="col">Comune</th>
+                                <th scope="col">Descrizione evento e luogo</th>
+                                @*<th></th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Count == 0)
+                            {
+                                <tr>
+                                    <td colspan="5">Nessun evento</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.Titolo</td>
+                                        <td>@item.TipoEvento</td>
+                                        <td>@item.DataEvento?.ToString("dd/MM/yyyy")</td>
+                                        <td>@item.Comune</td>
+                                        <td>@item.Descrizione</td>
+                                        @*<td><a class='btn btn-sm btn-link' onclick='cancellaAddestratore(@item.Id)' title="Elimina Addestratore"><i class="fa-solid fa-trash-can"></i></a></td>*@
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

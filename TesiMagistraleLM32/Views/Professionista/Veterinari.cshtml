@@ -1,0 +1,254 @@
+﻿@model PetsitterViewModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "Veterinari";
+}
+
+@section scripts {
+
+<script>
+    function loadListVet() {
+        $("#loader").html('<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>');
+        $.get({
+            url: "/Professionista/_ListVeterinari",
+            cache: false
+        }).done(function (data) {
+            $("#loader").empty();
+            $("#divListVet").html(data);
+            $('#tabellaVet').DataTable({
+                 "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Italian.json"
+                    }
+             });
+        }).fail(function (data) {
+        });
+    }
+
+    function openModaleInserimentoVet(id) {
+         $.get({
+             url: "/Professionista/_ModalInserimentoVet?id=" + id,
+             cache: false
+         }).done(function (data) {
+             $("#divMyModal").html(data);
+             var myModal = new bootstrap.Modal(document.getElementById('modalAddVet'));
+             myModal.show();
+         }).fail(function (data) {
+             showAjaxError(data);
+         });
+    }
+
+    function openModaleVisualizzaRecensioni(id) {
+         $.get({
+             url: "/Professionista/_ModalVisualizzaRecensioniVet?id=" + id,
+             cache: false
+         }).done(function (data) {
+             $("#divMyModal").html(data);
+             var myModal = new bootstrap.Modal(document.getElementById('modalViewRecensioni'));
+             myModal.show();
+         }).fail(function (data) {
+             showAjaxError(data);
+         });
+    }
+
+    function openModaleInserimentoRecensione(idAddestratore, idPetsitter, idVeterinario) {
+         $.get({
+             url: "/Professionista/_ModalInserimentoRecensione?idAddestratore=" + "" + "&idVeterinario=" + idVeterinario,
+             cache: false
+         }).done(function (data) {
+             $("#divMyModal").html(data);
+             var myModal = new bootstrap.Modal(document.getElementById('modalAddRecensione'));
+             myModal.show();
+         }).fail(function (data) {
+             showAjaxError(data);
+         });
+    }
+
+    function salvaVeterinario() {
+        let form = $('#formValidation');
+         form.validate();
+         $.validator.unobtrusive.parse(form);
+         let isValid = form.valid();
+         if (isValid) {
+             var data = form.serialize();
+             $.ajax({
+                 url: '/Professionista/SalvaNuovoVet',
+                 type: 'post',
+                 data: data,
+                 beforeSend: function () {
+                     $('button').prop("disabled", true);
+                 }
+             }).done((res, status, xhr) => {
+                 if (res.success) {
+                     $('.modal').modal('hide');
+                     myAlert("Aggiornamento Dati Veterinario", "Aggiornamento Dati Veterinario avvenuto con successo");
+
+                 } else {
+                     myAlert("Aggiornamento Dati Veterinario", res.errorMsg);
+                 }
+             }).fail(function (data) {
+                 showAjaxError(data);
+             }).always(function () {
+                 $('button').prop("disabled", false);
+                 $('.modal').modal('hide');
+                 loadListVet();
+             })
+         }
+    }
+
+    function salvaRecensione() {
+        let form = $('#formValidation');
+         form.validate();
+         let isValid = form.valid();
+         if (isValid) {
+             var data = form.serialize();
+             $.ajax({
+                 url: '/Professionista/SalvaNuovaRecensione',
+                 type: 'post',
+                 data: data,
+                 beforeSend: function () {
+                     $('button').prop("disabled", true);
+                 }
+             }).done((res, status, xhr) => {
+                 if (res.success) {
+                     $('.modal').modal('hide');
+                     myAlert("Inserimento nuova recensione", "Inserimento nuova recensione avvenuto con successo");
+
+                 } else {
+                     myAlert("Inserimento nuova recensione", res.errorMsg);
+                 }
+             }).fail(function (data) {
+                 showAjaxError(data);
+             }).always(function () {
+                 $('button').prop("disabled", false);
+                 $('.modal').modal('hide');
+                 loadListPetsitter();
+             })
+         }
+    }
+
+    function cancellaRecensione(id) {
+             $.ajax({
+                 url: '/Professionista/EliminaRecensione?id=' + id,
+                 type: 'post',
+                 beforeSend: function () {
+                     $("#loader2").removeAttr("hidden");
+                     $('.btn').prop("disabled", true);
+                 }
+             }).done((res, status, xhr) => {
+                 if (res.success) {
+                     myAlert("Eliminazione Recensione", "Eliminazione recensione avvenuto con successo");
+
+                 } else {
+                     myAlert("Eliminazione Recensione", res.errorMsg);
+                 }
+             }).fail(function (data) {
+                 showAjaxError(data);
+             }).always(function () {
+                 $('.btn').prop("disabled", false);
+                 $("#loader2").attr("hidden", "");
+                 $('.modal').modal('hide');
+
+             })
+    }
+
+
+    $(document).ready(function () {
+
+        loadListVet();
+    });
+</script>
+
+}
+
+<style>
+    #hero {
+        width: 100%;
+        height: 60vh;
+        background: url("/media/images/veterinario.jpg") center center;
+        background-size: cover;
+        position: relative;
+        margin-top: 70px;
+        padding: 0;
+    }
+</style>
+
+<!-- ======= Breadcrumbs ======= -->
+<section id="breadcrumbs" class="breadcrumbs">
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center section-title">
+            <h2>@ViewData["Title"]</h2>
+            @*<ol>
+                <li><a href="index.html">Home</a></li>
+                <li>@ViewData["Title"]</li>
+                </ol>*@
+        </div>
+
+    </div>
+</section><!-- End Breadcrumbs -->
+<!-- ======= Portfolio Details Section ======= -->
+<section id="portfolio-details" class="portfolio-details">
+    <div class="container">
+        <div class="row gy-4">
+            <div class="col-lg-8">
+                <div class="portfolio-details-slider swiper">
+                    <div class="swiper-wrapper align-items-center">
+
+                        <div class="swiper-slide">
+                            <img src="~/media/images/dog-bulldog.jpg" alt="">
+                        </div>
+
+                        <div class="swiper-slide">
+                            <img src="~/media/images/gatto.jpg" alt="">
+                        </div>
+
+                        <div class="swiper-slide">
+                            <img src="~/media/images/cane-e-gatto-amici-60.jpg" alt="">
+                        </div>
+
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="portfolio-info">
+                    <h3>@ViewData["Title"]</h3>
+                    <ul>
+                        <li>
+                            <strong>Info</strong>: Alla ricerca di una garanzia per chiunque necessiti di un controllo dello stato di salute del proprio animale domestico.
+                            Ogni utente può cercare un veterinario di fiducia o condividere la propria esperienza personale attraverso recensioni o
+                            informazioni utili riguardo la cura dei pet
+                        </li>
+                        @*<li><strong>Client</strong>: ASU Company</li>
+                            <li><strong>Project date</strong>: 01 March, 2020</li>
+                            <li><strong>Project URL</strong>: <a href="#">www.example.com</a></li>*@
+                    </ul>
+                </div>
+                <div class="portfolio-description">
+                    <h2>Dettagli</h2>
+                    <p>Per la prevenzione, diagnosi e cura delle malattie degli animali, del loro benessere, della loro igiene e della loro riproduzione, dedicandosi sia agli animali da compagnia sia a quelli allevati a scopo commerciale sia a quelli da competizione sportiva ed esotici</p>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section><!-- End Portfolio Details Section -->
+<div class="container">
+    <div id="divListVet" class="mb-5"></div>
+    <div id="loader" class="d-flex justify-content-center">
+    </div>
+
+</div>
+
+
+<div class="row">
+    <div class="col">
+        <div id="divMyModal"></div>
+    </div>
+</div>

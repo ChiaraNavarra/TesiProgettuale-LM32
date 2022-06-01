@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  tesimagistralelm32.api:
+    image: ${DOCKER_REGISTRY-}tesimagistralelm32api
+    build:
+      context: .
+      dockerfile: TesiMagistraleLM32.Api/Dockerfile
+  tesimagistralelm32:
+      image: ${DOCKER_REGISTRY-}tesimagistralelm32
+      build:
+        context: .
+        dockerfile: TesiMagistraleLM32/Dockerfile
+  tesimagistralelm32.apigateway:
+    image: ${DOCKER_REGISTRY-}tesimagistralelm32apigateway
+    build:
+      context: .
+      dockerfile: TesiMagistraleLM32.ApiGateway/Dockerfile
+  tesimagistralelm32.apisql:
+    image: ${DOCKER_REGISTRY-}tesimagistralelm32apisql
+    build:
+      context: .
+      dockerfile: TesiMagistraleLM32.ApiSql/Dockerfile

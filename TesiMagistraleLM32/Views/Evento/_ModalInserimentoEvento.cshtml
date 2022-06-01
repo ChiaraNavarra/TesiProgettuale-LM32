@@ -1,0 +1,75 @@
+﻿@model EventoViewModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+
+<div class="modal fade" id="modalAddEvento" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel"><b> Nuovo Evento</b></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formValidation">
+                <div class="modal-body">
+                    <div class="p-3">
+                        <div class="section">
+                            <div class="mb-3">
+                                <label for="nome" class="form-label">Titolo : </label>
+                                <input type="text" asp-for="Titolo" class="form-control" id="txtTitolo">
+                                <span asp-validation-for="Titolo" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cognome" class="form-label">Tipo Evento : </label>
+                                <select class="form-select" asp-for="TipoEvento" aria-label="Default select example">
+                                    @{
+                                        if (Context.User.IsInRole("PetTrainer"))
+                                        {
+                                            <option value="Classi di socializzazione">Classi di socializzazione</option>
+                                            <option value="Sessioni di allenamento">Sessioni di allenamento</option>
+                                            <option value="Classi di comunicazione">Classi di comunicazione</option>
+                                            <option value="Altro">Altro</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="Raduno di razza">Raduno di razza</option>
+                                            <option value="Raccolta di beneficenza">Raccolta di beneficenza</option>
+                                            <option value="Camminata">Camminata</option>
+                                            <option value="Altro">Altro</option>
+                                        }
+                                    }
+
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="datanascita" class="form-label">Comune : </label>
+                                <select class="form-select" asp-for="Comune" aria-label="Default select example" data-size="10">
+                                    @foreach (var item in ViewBag.Comuni)
+                                    {
+                                        <option value="@item.nome">@item.nome</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="Comune" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label for="datanascita" class="form-label">Data Evento : </label>
+                                <input type="date" asp-for="DataEvento" class="form-control" id="DataEvento">
+                                <span asp-validation-for="DataEvento" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label for="note" class="form-label">Descrizione evento e luogo : </label>
+                                <textarea type="text" asp-for="Descrizione" class="form-control" id="txtDescrizione"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                    <button type="button" class="btn btn-primary" onclick="salvaEvento();">Salva</button>
+                </div>
+                @Xsrf.GetHtml(Context)
+            </form>
+        </div>
+    </div>
+</div>

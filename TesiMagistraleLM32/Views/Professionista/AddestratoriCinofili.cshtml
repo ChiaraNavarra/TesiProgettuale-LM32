@@ -1,0 +1,208 @@
+﻿@model AddestratoreCinofiloViewModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "Addestratori cinofili";
+}
+
+@section scripts {
+
+<script>
+    function loadListAddestratori() {
+        $("#loader").html('<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>');
+        $.get({
+            url: "/Professionista/_ListAddestratori",
+            cache: false
+        }).done(function (data) {
+            $("#loader").empty();
+            $("#divListAddestratori").html(data);
+            $('#tabellaAddestratori').DataTable({
+                 "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Italian.json"
+                    },
+                 "responsive": true
+             });
+        }).fail(function (data) {
+        });
+    }
+
+    function openModaleInserimentoAddestratore(id) {
+         $.get({
+             url: "/Professionista/_ModalInserimentoAddestratore?id=" + id,
+             cache: false
+         }).done(function (data) {
+             $("#divMyModal").html(data);
+             var myModal = new bootstrap.Modal(document.getElementById('modalAddAddestratore'));
+             myModal.show();
+         }).fail(function (data) {
+             showAjaxError(data);
+         });
+    }
+
+    function openModaleVisualizzaRecensioni(id) {
+         $.get({
+             url: "/Professionista/_ModalVisualizzaRecensioniAddestratore?id=" + id,
+             cache: false
+         }).done(function (data) {
+             $("#divMyModal").html(data);
+             var myModal = new bootstrap.Modal(document.getElementById('modalViewRecensioni'));
+             myModal.show();
+         }).fail(function (data) {
+             showAjaxError(data);
+         });
+    }
+
+    function openModaleInserimentoRecensione(idAddestratore, idPetsitter, idVeterinario) {
+         $.get({
+             url: "/Professionista/_ModalInserimentoRecensione?idAddestratore=" + idAddestratore + "&idPetsitter=" + "" + "&idVeterinario=" + "",
+             cache: false
+         }).done(function (data) {
+             $("#divMyModal").html(data);
+             var myModal = new bootstrap.Modal(document.getElementById('modalAddRecensione'));
+             myModal.show();
+         }).fail(function (data) {
+             showAjaxError(data);
+         });
+    }
+
+    function salvaAddestratore() {
+        let form = $('#formValidation');
+         form.validate();
+         $.validator.unobtrusive.parse(form);
+         let isValid = form.valid();
+         if (isValid) {
+             var data = form.serialize();
+             $.ajax({
+                 url: '/Professionista/SalvaNuovoAddestratore',
+                 type: 'post',
+                 data: data,
+                 beforeSend: function () {
+                     $('button').prop("disabled", true);
+                 }
+             }).done((res, status, xhr) => {
+                 if (res.success) {
+                     $('.modal').modal('hide');
+                     myAlert("Aggiornamento Dati Addestratore", "Aggiornamento Dati addestratore avvenuto con successo");
+
+                 } else {
+                     myAlert("Aggiornamento Dati Addestratore", res.errorMsg);
+                 }
+             }).fail(function (data) {
+                 showAjaxError(data);
+             }).always(function () {
+                 $('button').prop("disabled", false);
+                 $('.modal').modal('hide');
+                 loadListAddestratori();
+             })
+         }
+    }
+
+    function salvaRecensione() {
+        let form = $('#formValidation');
+         form.validate();
+         let isValid = form.valid();
+         if (isValid) {
+             var data = form.serialize();
+             $.ajax({
+                 url: '/Professionista/SalvaNuovaRecensione',
+                 type: 'post',
+                 data: data,
+                 beforeSend: function () {
+                     $('button').prop("disabled", true);
+                 }
+             }).done((res, status, xhr) => {
+                 if (res.success) {
+                     $('.modal').modal('hide');
+                     myAlert("Inserimento nuova recensione", "Inserimento nuova recensione avvenuto con successo");
+
+                 } else {
+                     myAlert("Inserimento nuova recensione", res.errorMsg);
+                 }
+             }).fail(function (data) {
+                 showAjaxError(data);
+             }).always(function () {
+                 $('button').prop("disabled", false);
+                 $('.modal').modal('hide');
+                 loadListAddestratori();
+             })
+         }
+    }
+
+    function cancellaRecensione(id) {
+             $.ajax({
+                 url: '/Professionista/EliminaRecensione?id=' + id,
+                 type: 'post',
+                 beforeSend: function () {
+                     $("#loader2").removeAttr("hidden");
+                     $('.btn').prop("disabled", true);
+                 }
+             }).done((res, status, xhr) => {
+                 if (res.success) {
+                     myAlert("Eliminazione Recensione", "Eliminazione recensione avvenuto con successo");
+
+                 } else {
+                     myAlert("Eliminazione Recensione", res.errorMsg);
+                 }
+             }).fail(function (data) {
+                 showAjaxError(data);
+             }).always(function () {
+                 $('.btn').prop("disabled", false);
+                 $("#loader2").attr("hidden", "");
+                 $('.modal').modal('hide');
+
+             })
+    }
+
+
+    $(document).ready(function () {
+        loadListAddestratori();
+    });
+</script>
+
+}
+
+<style>
+    #hero {
+        width: 100%;
+        height: 60vh;
+        background: url("/media/images/dog-trainer.jpg") center center;
+        background-size: cover;
+        position: relative;
+        margin-top: 70px;
+        padding: 0;
+    }
+</style>
+
+<div class="container">
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact section-bg mt-3">
+        <div class="container">
+            <div class="section-title mb-5">
+                <h2>@ViewData["Title"]</h2>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    @if (User.IsInRole("PetTrainer"))
+                    {
+                        <p>Aggiorna le tue informazioni come Addestratore Cinofilo e consulta le recensioni lasciate dagli utenti</p>
+                    }
+                    else
+                    {
+                        <p>Cerca l'addestratore adatto per il tuo pet nel tuo comune di residenza</p>
+                    }
+                }
+            </div>            
+            <div id="divListAddestratori"></div>
+            <div id="loader" class="d-flex justify-content-center">
+            </div>
+        </div>
+    </section><!-- End Contact Section -->
+    <br />
+</div>
+
+<div class="row">
+    <div class="col">
+        <div id="divMyModal"></div>
+    </div>
+</div>

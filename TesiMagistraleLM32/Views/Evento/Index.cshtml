@@ -1,0 +1,118 @@
+﻿@*@model RazzaCaninaViewModel*@
+
+@{
+    ViewData["Title"] = "Eventi";
+}
+
+@section scripts {
+
+<script>
+
+    function openModaleInserimentoEvento() {
+         $.get({
+             url: "/Evento/_ModalInserimentoEvento",
+             cache: false
+         }).done(function (data) {
+             $("#divMyModal").html(data);
+             var myModal = new bootstrap.Modal(document.getElementById('modalAddEvento'));
+             myModal.show();
+         }).fail(function (data) {
+             showAjaxError(data);
+         });
+    }
+
+    function salvaEvento() {
+        let form = $('#formValidation');
+        $.validator.unobtrusive.parse(form);
+         form.validate();
+         let isValid = form.valid();
+         if (isValid) {
+             var data = form.serialize();
+             $.ajax({
+                 url: '/Evento/SalvaNuovoEvento',
+                 type: 'post',
+                 data: data,
+                 beforeSend: function () {
+                     //$("#loader").removeAttr("hidden");
+                     $('button').prop("disabled", true);
+                 }
+             }).done((res, status, xhr) => {
+                 if (res.success) {
+                     $('.modal').modal('hide');
+                     myAlert("Inserimento Evento", "Inserimento Evento avvenuto con successo");
+
+                 } else {
+                     myAlert("Inserimento Evento", res.errorMsg);
+                 }
+             }).fail(function (data) {
+                 showAjaxError(data);
+             }).always(function () {
+                 $('button').prop("disabled", false);
+                 //$$("#loader").attr("hidden", "");
+                 $('.modal').modal('hide');
+                 loadListEventi();
+             })
+         }
+    }
+
+    function loadListEventi() {
+        $("#loader").html('<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>');
+        $.get({
+            url: "/Evento/_ListEventi",
+            cache: false
+        }).done(function (data) {
+            $("#loader").empty();
+            $("#listEventi").html(data);
+             $('#tabellaEventi').DataTable({
+                 "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Italian.json"
+                    }
+             });
+        }).fail(function (data) {
+        });
+    }
+
+    $(document).ready(function () {
+        loadListEventi();
+    });
+</script>
+
+}
+
+<style>
+    #hero {
+        width: 100%;
+        height: 60vh;
+        background: url("/media/images/human-dog.jpg") center center;
+        background-size: cover;
+        position: relative;
+        margin-top: 70px;
+        padding: 0;
+    }
+</style>
+
+
+
+
+
+<!-- ======= Testimonials Section ======= -->
+<section id="portfolio" class="portfolio">
+    <div class="container">
+        <div class="section-title">
+            <h2>@ViewData["Title"]</h2>
+            <p>Cerca/Organizza un incontro per una camminata nel bosco, classi di addestramento o evento di beneficenza</p>
+        </div>        
+
+        <div id="loader" class="d-flex justify-content-center">
+        </div>
+        <div id="listEventi"></div>
+
+    </div>
+</section><!-- End Testimonials Section -->
+
+
+<div class="row">
+    <div class="col">
+        <div id="divMyModal"></div>
+    </div>
+</div>
